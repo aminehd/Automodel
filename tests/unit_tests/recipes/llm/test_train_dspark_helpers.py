@@ -57,8 +57,8 @@ from nemo_automodel.recipes.llm._dspark_target_build import (
     resolve_reduced_target_layers,
 )
 from nemo_automodel.recipes.llm.train_dspark import (
-    _add_accept_rate_per_position,
     TrainDSparkRecipe,
+    _add_accept_rate_per_position,
     _apply_draft_activation_checkpointing,
     _apply_target_chat_template,
     _build_dspark_optimizer,
@@ -237,6 +237,8 @@ def test_run_train_validation_loop_finalizes_before_close():
     obj.dist_env = SimpleNamespace(is_main=False)
     obj.total_optim_steps = 1
     obj.runtime = SimpleNamespace(global_step=1)
+    obj.block_size = 1
+    obj.device = torch.device("cpu")
     obj.train_dataloader = []
     obj._make_progress_bar = lambda **kwargs: FakePbar()
     obj._run_eval = lambda: None
